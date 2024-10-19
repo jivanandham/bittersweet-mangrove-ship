@@ -3,6 +3,7 @@ const serviceAccount = require('../firebaseconfig.json'); // Update the path to 
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://networks-final-6cf13-default-rtdb.firebaseio.com/"
 });
 
 module.exports = admin;

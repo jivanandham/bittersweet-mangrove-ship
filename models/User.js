@@ -1,24 +1,12 @@
 const mongoose = require('mongoose');
+require('dotenv').config();  // Ensure environment variables are loaded
 
-const userSchema = new mongoose.Schema({
-  firebaseUID: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  username: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  role: {
-    type: String,
-    enum: ['user', 'admin'],
-    default: 'user',
-  },
+mongoose.connect(process.env.MONGO_URI, {
+  serverSelectionTimeoutMS: 5000,  // Set timeout to 5 seconds
+})
+.then(() => {
+  console.log('MongoDB connected successfully');
+})
+.catch((err) => {
+  console.error('MongoDB connection error:', err);
 });
-
-module.exports = mongoose.model('User', userSchema);
