@@ -1,15 +1,20 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-auth.js';
 
-// Firebase config for frontend
+
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID",
+  apiKey: "AIzaSyCNmoOjw6BoqI8z7ONzBPVuYh8kJP8VXqA",
+  authDomain: "networks-final-6cf13.firebaseapp.com",
+  projectId: "networks-final-6cf13",
+  storageBucket: "networks-final-6cf13.appspot.com",
+  messagingSenderId: "773234480597",
+  appId: "1:773234480597:web:2aa5bbed11d6a40092d95c",
+  measurementId: "G-W259Z6N2M3"
 };
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
