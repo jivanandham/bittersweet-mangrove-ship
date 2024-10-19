@@ -1,41 +1,51 @@
 const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-const mongoose = require('mongoose');
-const authRoutes = require('./routes/authRoutes');
 const path = require('path');
 require('dotenv').config();
 
+// Firebase admin setup
+const admin = require('./config/firebaseConfig');
+const authRoutes = require('./routes/authRoutes'); // Example routes for auth
+
 const app = express();
 
-// MongoDB connection
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch((err) => console.log(err));
-
-// Middleware
+// Middleware for parsing JSON and form data
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
+
+// Set the view engine to EJS
+app.set('view engine', 'ejs');
+
+// Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Session middleware
+// Session setup
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI })
   })
 );
 
-// View engine setup
-app.set('view engine', 'ejs');
+// Middleware to make user object available in all views
+app.use((req, res, next) => {
+  res.locals.user = req.session.user;
+  next();
+});
 
 // Routes
 app.use('/', authRoutes);
 
-// Server setup
-const PORT = process.env.PORT || 5000;
+// Home Route
+app.get('/', (req, res) => {
+  res.render('login');
+});
+
+// Server listen
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
